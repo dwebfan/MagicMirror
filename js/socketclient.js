@@ -21,13 +21,19 @@ var MMSocket = function (moduleName) {
 		base = config.basePath;
 	}
 	self.socket = io("/" + self.moduleName, {
-		path: base + "socket.io"
+		path: base + "socket.io",
+		upgrade: true,
+		transports: ["websocket"]
 	});
+
+	console.log("socket url: /" + self.moduleName + ", path: " + base);
+
 	var notificationCallback = function () {};
 
 	var onevent = self.socket.onevent;
 	self.socket.onevent = function (packet) {
 		var args = packet.data || [];
+		Log.log("received: " + args);
 		onevent.call(this, packet); // original call
 		packet.data = ["*"].concat(args);
 		onevent.call(this, packet); // additional call to catch-all
@@ -35,6 +41,7 @@ var MMSocket = function (moduleName) {
 
 	// register catch all.
 	self.socket.on("*", function (notification, payload) {
+		Log.log("received notification: " + notification);
 		if (notification !== "*") {
 			notificationCallback(notification, payload);
 		}
@@ -46,6 +53,7 @@ var MMSocket = function (moduleName) {
 	};
 
 	this.sendNotification = function (notification, payload) {
+		Log.log("send notification: " + notification + ", payload: " + payload);
 		if (typeof payload === "undefined") {
 			payload = {};
 		}

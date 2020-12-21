@@ -161,6 +161,7 @@ Module.register("calendar", {
 		const oneHour = oneMinute * 60;
 		const oneDay = oneHour * 24;
 
+//Log.log("calendor get DOM");
 		var events = this.createEventList();
 		var wrapper = document.createElement("table");
 		wrapper.className = this.config.tableClass;

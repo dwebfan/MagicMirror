@@ -241,9 +241,11 @@ var Module = Class.extend({
 	 * @returns {MMSocket} a socket object
 	 */
 	socket: function () {
+		Log.log("before: socket name: " + this.name + ", object: " + this._socket);
 		if (typeof this._socket === "undefined") {
 			this._socket = new MMSocket(this.name);
 		}
+		Log.log("after: socket name: " + this.name + ", object: " + this._socket);
 
 		var self = this;
 		this._socket.setNotificationCallback(function (notification, payload) {

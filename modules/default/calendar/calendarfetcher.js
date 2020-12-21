@@ -66,6 +66,8 @@ const CalendarFetcher = function (url, reloadInterval, excludedEvents, maximumEn
 		}
 
 		request(url, opts, function (err, r, requestData) {
+			Log.log("calendor fetch: " + url);
+
 			if (err) {
 				fetchFailedCallback(self, err);
 				scheduleTimer();
